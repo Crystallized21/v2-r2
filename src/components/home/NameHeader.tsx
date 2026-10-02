@@ -9,5 +9,5 @@ export default function NameHeader() {
         Crystal&apos;s Spectra Vault
       </h1>
     </Link>
-  )
+  );
 }
