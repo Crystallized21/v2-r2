@@ -1,6 +1,7 @@
 ﻿import * as Sentry from "@sentry/nextjs";
 import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
+import { AlbumListRow } from "@/types/album";
 
 export async function GET() {
   const supabase = await createClient();
@@ -17,7 +18,7 @@ export async function GET() {
       throw error;
     }
 
-    const albums = data.map((row) => ({
+    const albums = data.map((row: AlbumListRow) => ({
       id: row.id,
       name: row.name,
       eventDate: row.event_date,
