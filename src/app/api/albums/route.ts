@@ -11,7 +11,7 @@ export async function GET() {
 
     const { data, error } = await supabase
       .from("albums")
-      .select("id, name, event_date")
+      .select("id, slug, name, event_date")
       .eq("published", true);
 
     if (error) {
@@ -20,6 +20,7 @@ export async function GET() {
 
     const albums = data.map((row: AlbumListRow) => ({
       id: row.id,
+      slug: row.slug,
       name: row.name,
       eventDate: row.event_date,
     }));
