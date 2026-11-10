@@ -5,7 +5,7 @@ import AlbumListSkeleton from "@/components/home/AlbumListSkeleton";
 
 export default function Home() {
   return (
-    <div className="w-full bg-background mx-96 py-8">
+    <div className="mx-auto w-full max-w-7xl py-8 py-8">
       <NameHeader/>
       <Suspense
         fallback={<AlbumListSkeleton/>}

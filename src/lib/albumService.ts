@@ -1,5 +1,6 @@
 ﻿import * as Sentry from "@sentry/nextjs";
 import { Album } from "@/types/album";
+import { createClient } from "@/utils/supabase/server";
 
 export async function fetchAlbums(): Promise<Album[]> {
   try {
@@ -39,4 +40,18 @@ export function groupAlbumsByDate( albums: Album[] ): Record<string, Album[]> {
 
     return acc;
   }, {} as Record<string, Album[]>);
+}
+
+export async function getAlbumBySlug(slug: string) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("albums")
+    .select("id, name, slug, event_date")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data;
 }
