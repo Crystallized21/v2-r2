@@ -1,21 +1,28 @@
 ﻿"use client";
 
 import { useActionState, useState } from "react";
-import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { unlockAlbum, type UnlockState } from "@/app/albums/[slug]/actions";
+import { unlockAlbum } from "@/app/albums/[slug]/actions";
+import { UnlockState } from "@/types/unlock";
+import PasswordInput from "@/components/album/PasswordInput";
+import OpenButton from "@/components/album/OpenButton";
+import PasswordError from "@/components/album/PasswordError";
+
+const initialState: UnlockState = { status: "idle", attempt: 0 };
 
 export default function PasswordForm({ slug }: { slug: string }) {
-  const [state, formAction, pending] = useActionState<UnlockState, FormData>(
+  const [state, formAction, pending] = useActionState(
     unlockAlbum.bind(null, slug),
-    { status: "idle", attempt: 0 },
+    initialState,
   );
-  // Hide the error as soon as the visitor starts retyping
-  const [editedAfter, setEditedAfter] = useState(0);
-  const showError =
-    (state.status === "error" || state.status === "failed") &&
-    editedAfter !== state.attempt &&
-    !pending;
+
+  // Which attempt the visitor has started retyping after.
+  // Used to hide the error message as soon as they type again.
+  const [editedAfterAttempt, setEditedAfterAttempt] = useState(0);
+
+  const hasError = state.status === "wrong" || state.status === "failed";
+  const hasRetyped = editedAfterAttempt === state.attempt;
+  const showError = hasError && !hasRetyped && !pending;
 
   if (state.status === "ok") {
     // TODO(milestone 2): the session cookie + page refresh replace this with the gallery
@@ -35,69 +42,20 @@ export default function PasswordForm({ slug }: { slug: string }) {
         Password
       </label>
 
+      {/* key={attempt} remounts this row on every submit, so the shake replays each time */}
       <div
         key={state.attempt}
         className={cn("flex items-end gap-6", showError && "motion-safe:animate-shake")}
       >
-        <div className="relative flex-1 overflow-hidden">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            disabled={pending}
-            onChange={() => setEditedAfter(state.attempt)}
-            aria-invalid={showError}
-            aria-describedby={showError ? "password-error" : undefined}
-            className="peer h-11 w-full border-0 border-b border-border bg-transparent p-0 text-xl font-light tracking-widest outline-none transition-opacity disabled:opacity-50"
-          />
-          {/* Focus line grows from the left over the resting border */}
-          <span
-            aria-hidden="true"
-            className={cn(
-              "absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-foreground transition-transform duration-500 peer-focus:scale-x-100",
-              showError && "scale-x-100 bg-destructive",
-              pending && "opacity-0",
-            )}
-          />
-          {pending && (
-            <span
-              aria-hidden="true"
-              className="absolute bottom-0 left-0 h-px w-1/3 bg-foreground motion-safe:animate-indeterminate"
-            />
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={pending}
-          className="group inline-flex h-11 cursor-pointer items-center gap-2 text-base transition-colors disabled:cursor-default disabled:text-muted-foreground"
-        >
-          <span className="relative">
-            {pending ? "Opening" : "Open"}
-            <span className="absolute bottom-0 left-0 h-px w-0 bg-current transition-all duration-300 group-hover:w-full group-disabled:w-0" />
-          </span>
-          <ArrowRight
-            size={16}
-            strokeWidth={1.5}
-            aria-hidden="true"
-            className="transition-transform duration-300 group-hover:translate-x-1 group-disabled:translate-x-0"
-          />
-        </button>
+        <PasswordInput
+          showError={showError}
+          pending={pending}
+          onChange={() => setEditedAfterAttempt(state.attempt)}
+        />
+        <OpenButton pending={pending} />
       </div>
 
-      {showError && (
-        <p
-          id="password-error"
-          role="alert"
-          className="text-sm text-destructive motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top-1 motion-safe:duration-300"
-        >
-          {state.status === "failed"
-            ? "Something went wrong on our side. Try again in a moment."
-            : "That isn't it. Check the message the password came in."}
-        </p>
-      )}
+      {showError && <PasswordError status={state.status} />}
 
       <p className="mt-2 text-sm text-muted-foreground">
         Stays open on this browser for 12 hours.

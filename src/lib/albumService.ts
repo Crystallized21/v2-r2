@@ -54,17 +54,3 @@ export async function getAlbumBySlug(slug: string) {
 
   return data;
 }
-
-// Includes the password hash: only for verifying an unlock, never pass it to a component.
-export async function getAlbumCredentials(slug: string) {
-  const { data, error } = await db
-    .from("albums")
-    .select("id, password_hash, password_version")
-    .eq("slug", slug)
-    .eq("published", true)
-    .maybeSingle();
-
-  if (error) throw error;
-
-  return data;
-}

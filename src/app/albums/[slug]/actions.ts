@@ -2,37 +2,45 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { verify } from "@node-rs/argon2";
-import { getAlbumCredentials } from "@/lib/albumService";
+import { getAlbumCredentials } from "@/lib/albumCredentials";
+import { UnlockState } from "@/types/unlock";
 
-export type UnlockState = {
-  status: "idle" | "error" | "failed" | "ok";
-  attempt: number;
-};
-
+// Called by PasswordForm when the visitor submits a password.
+// `slug` is bound in by the form, `formData` holds the typed password.
 export async function unlockAlbum(
   slug: string,
-  prev: UnlockState,
+  previous: UnlockState,
   formData: FormData,
 ): Promise<UnlockState> {
-  const attempt = prev.attempt + 1;
+  const attempt = previous.attempt + 1;
   const password = formData.get("password");
 
-  if (typeof password !== "string" || password.length === 0 || password.length > 256) {
-    return { status: "error", attempt };
+  if (typeof password !== "string") {
+    return { status: "wrong", attempt };
+  }
+
+  if (password.length === 0 || password.length > 256) {
+    return { status: "wrong", attempt };
   }
 
   try {
     const album = await getAlbumCredentials(slug);
 
     if (!album) {
-      return { status: "error", attempt };
+      return { status: "wrong", attempt };
     }
 
     // TODO(milestone 3): rate limit before verifying
-    const ok = await verify(album.password_hash, password);
 
-    // TODO(milestone 2): set the album session cookie on success
-    return { status: ok ? "ok" : "error", attempt };
+    const passwordMatches = await verify(album.password_hash, password);
+
+    if (!passwordMatches) {
+      return { status: "wrong", attempt };
+    }
+
+    // TODO(milestone 2): set the album session cookie here
+
+    return { status: "ok", attempt };
   } catch (err) {
     Sentry.captureException(err);
     console.error("Error unlocking album:", err);
