@@ -30,6 +30,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="icon" href="/src/app/icon.png" />
+      </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class">
           <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6">
