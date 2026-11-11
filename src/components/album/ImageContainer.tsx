@@ -10,9 +10,10 @@ type ImageContainerProps = {
   width: number;
   height: number;
   onClick: () => void;
+  onError: () => void;
 };
 
-export default function ImageContainer({ src, alt, width, height, onClick }: ImageContainerProps) {
+export default function ImageContainer({ src, alt, width, height, onClick, onError }: ImageContainerProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
@@ -33,6 +34,7 @@ export default function ImageContainer({ src, alt, width, height, onClick }: Ima
         height={height}
         loading="lazy"
         onLoad={() => setIsLoading(false)}
+        onError={onError}
         className={cn(
           "h-auto w-full transition-opacity duration-500 group-hover:opacity-85",
           isLoading ? "opacity-0" : "opacity-100",

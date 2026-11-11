@@ -5,6 +5,8 @@ import AlbumGallery from "@/components/album/AlbumGallery";
 import AlbumLightbox from "@/components/album/AlbumLightbox";
 import DownloadAllLink from "@/components/album/DownloadAllLink";
 import { GalleryPhoto } from "@/types/photo";
+import { useFreshPhotoUrls } from "@/hooks/useFreshPhotoUrls";
+import { reportPhotoLoadError } from "@/lib/reportPhotoLoadError";
 
 type AlbumViewerProps = {
   photos: GalleryPhoto[];
@@ -17,6 +19,17 @@ type AlbumViewerProps = {
 export default function AlbumViewer({ photos, albumName, albumSlug, archiveSizeBytes }: AlbumViewerProps) {
   // -1 means the lightbox is closed
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const refreshPhotoUrls = useFreshPhotoUrls(photos);
+
+  function handleThumbnailError(photo: GalleryPhoto) {
+    reportPhotoLoadError(albumSlug, photo, "thumbnail");
+    refreshPhotoUrls();
+  }
+
+  function handlePreviewError(photo: GalleryPhoto) {
+    reportPhotoLoadError(albumSlug, photo, "preview");
+    refreshPhotoUrls();
+  }
 
   if (photos.length === 0) {
     return (
@@ -33,13 +46,19 @@ export default function AlbumViewer({ photos, albumName, albumSlug, archiveSizeB
           <DownloadAllLink albumSlug={albumSlug} sizeBytes={archiveSizeBytes} />
         </div>
       )}
-      <AlbumGallery photos={photos} albumName={albumName} onImageClick={setLightboxIndex} />
+      <AlbumGallery
+        photos={photos}
+        albumName={albumName}
+        onImageClick={setLightboxIndex}
+        onImageError={handleThumbnailError}
+      />
       <AlbumLightbox
         photos={photos}
         albumName={albumName}
         albumSlug={albumSlug}
         index={lightboxIndex}
         onClose={() => setLightboxIndex(-1)}
+        onPreviewError={handlePreviewError}
       />
     </div>
   );

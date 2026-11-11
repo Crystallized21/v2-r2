@@ -8,9 +8,10 @@ type AlbumGalleryProps = {
   photos: GalleryPhoto[];
   albumName: string;
   onImageClick: (index: number) => void;
+  onImageError: (photo: GalleryPhoto) => void;
 };
 
-export default function AlbumGallery({ photos, albumName, onImageClick }: AlbumGalleryProps) {
+export default function AlbumGallery({ photos, albumName, onImageClick, onImageError }: AlbumGalleryProps) {
   return (
     <Masonry
       breakpointCols={{ default: 4, 1280: 3, 768: 2, 640: 1 }}
@@ -25,6 +26,7 @@ export default function AlbumGallery({ photos, albumName, onImageClick }: AlbumG
           width={photo.width}
           height={photo.height}
           onClick={() => onImageClick(index)}
+          onError={() => onImageError(photo)}
         />
       ))}
     </Masonry>

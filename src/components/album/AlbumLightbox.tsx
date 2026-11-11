@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Download from "yet-another-react-lightbox/plugins/download";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -12,6 +13,7 @@ type AlbumLightboxProps = {
   albumSlug: string;
   index: number;
   onClose: () => void;
+  onPreviewError: (photo: GalleryPhoto) => void;
 };
 
 // The upload script makes previews at most 2048px on the long edge.
@@ -25,7 +27,29 @@ function getPreviewSize(width: number, height: number) {
   };
 }
 
-export default function AlbumLightbox({ photos, albumName, albumSlug, index, onClose }: AlbumLightboxProps) {
+export default function AlbumLightbox({ photos, albumName, albumSlug, index, onClose, onPreviewError }: AlbumLightboxProps) {
+  // YARL doesn't let us pass onError to its images. Load errors don't bubble,
+  // but they can be caught on window in the capture phase.
+  useEffect(() => {
+    function handleImageError(event: Event) {
+      const image = event.target;
+
+      if (!(image instanceof HTMLImageElement) || !image.classList.contains("yarl__slide_image")) {
+        return;
+      }
+
+      const photo = photos.find((candidate) => candidate.previewUrl === image.src);
+
+      if (photo) {
+        onPreviewError(photo);
+      }
+    }
+
+    window.addEventListener("error", handleImageError, true);
+
+    return () => window.removeEventListener("error", handleImageError, true);
+  }, [photos, onPreviewError]);
+
   const slides = photos.map((photo, photoIndex) => ({
     src: photo.previewUrl,
     alt: `${albumName}, photo ${photoIndex + 1}`,
