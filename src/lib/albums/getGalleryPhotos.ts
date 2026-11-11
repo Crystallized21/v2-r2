@@ -7,7 +7,7 @@ import { GalleryPhoto } from "@/types/photo";
 export async function getGalleryPhotos(albumId: string): Promise<GalleryPhoto[]> {
   const { data, error } = await db
     .from("photos")
-    .select("id, width, height, r2_key_thumbnail, r2_key_preview")
+    .select("id, original_filename, width, height, r2_key_thumbnail, r2_key_preview")
     .eq("album_id", albumId)
     .order("sort_order");
 
@@ -15,6 +15,7 @@ export async function getGalleryPhotos(albumId: string): Promise<GalleryPhoto[]>
 
   return Promise.all(data.map(async (photo) => ({
     id: photo.id,
+    filename: photo.original_filename,
     // older rows might not have a size, 3:2 is the usual camera shape
     width: photo.width ?? 3,
     height: photo.height ?? 2,

@@ -44,7 +44,7 @@ export default async function AlbumPage({
       </div>
 
       {unlocked ? (
-        <AlbumViewer photos={photos} albumName={album.name} />
+        <AlbumViewer photos={photos} albumName={album.name} albumSlug={album.slug} />
       ) : (
         <PasswordForm slug={album.slug} />
       )}

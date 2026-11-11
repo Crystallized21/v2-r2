@@ -8,9 +8,10 @@ import { GalleryPhoto } from "@/types/photo";
 type AlbumViewerProps = {
   photos: GalleryPhoto[];
   albumName: string;
+  albumSlug: string;
 };
 
-export default function AlbumViewer({ photos, albumName }: AlbumViewerProps) {
+export default function AlbumViewer({ photos, albumName, albumSlug }: AlbumViewerProps) {
   // -1 means the lightbox is closed
   const [lightboxIndex, setLightboxIndex] = useState(-1);
 
@@ -28,6 +29,7 @@ export default function AlbumViewer({ photos, albumName }: AlbumViewerProps) {
       <AlbumLightbox
         photos={photos}
         albumName={albumName}
+        albumSlug={albumSlug}
         index={lightboxIndex}
         onClose={() => setLightboxIndex(-1)}
       />
