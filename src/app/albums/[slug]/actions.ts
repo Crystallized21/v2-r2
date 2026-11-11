@@ -2,8 +2,8 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { verify } from "@node-rs/argon2";
-import { getAlbumCredentials } from "@/lib/albumCredentials";
-import { createAlbumSession } from "@/lib/albumSession";
+import { getAlbumCredentials } from "@/lib/albums/getAlbumCredentials";
+import { createAlbumSession } from "@/lib/albums/albumSession";
 import { UnlockState } from "@/types/unlock";
 
 // Called by PasswordForm when the visitor submits a password.

@@ -1,4 +1,4 @@
-﻿export function formatPrettyDate( isoDate: string ): string {
+export function formatPrettyDate( isoDate: string ): string {
   const date = new Date(isoDate);
   const day = date.getDate();
 

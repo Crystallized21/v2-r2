@@ -1,11 +1,11 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import PasswordForm from "@/components/album/PasswordForm";
-import { getAlbumBySlug } from "@/lib/albumService";
+import { getAlbumBySlug } from "@/lib/albums/getAlbumBySlug";
 import NameHeader from "@/components/home/NameHeader";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { formatPrettyDate } from "@/lib/formatPrettyDate";
-import { hasAlbumSession } from "@/lib/albumSession";
+import { hasAlbumSession } from "@/lib/albums/albumSession";
 
 export default async function AlbumPage({
   params,

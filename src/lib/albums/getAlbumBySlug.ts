@@ -1,9 +1,9 @@
-import { db } from "@/lib/db";
+import { db } from "@/lib/clients/db";
 
-export async function getAlbumCredentials(slug: string) {
+export async function getAlbumBySlug(slug: string) {
   const { data, error } = await db
     .from("albums")
-    .select("id, password_hash, password_version")
+    .select("id, name, slug, event_date, password_version")
     .eq("slug", slug)
     .eq("published", true)
     .maybeSingle();

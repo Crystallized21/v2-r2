@@ -1,9 +1,10 @@
-﻿import Link from "next/link";
-import { fetchAlbums, groupAlbumsByDate } from "@/lib/albumService";
+import Link from "next/link";
+import { getAlbums } from "@/lib/albums/getAlbums";
+import { groupAlbumsByDate } from "@/lib/albums/groupAlbumsByDate";
 import { formatPrettyDate } from "@/lib/formatPrettyDate";
 
 export default async function AlbumList() {
-  const albums = await fetchAlbums();
+  const albums = await getAlbums();
   const groupedAlbums = groupAlbumsByDate(albums);
 
   return (

@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 
 import { useActionState, useState } from "react";
 import { cn } from "@/lib/utils";
 import { unlockAlbum } from "@/app/albums/[slug]/actions";
 import { UnlockState } from "@/types/unlock";
+import { SESSION_HOURS } from "@/lib/albums/sessionConfig";
 import PasswordInput from "@/components/album/PasswordInput";
 import OpenButton from "@/components/album/OpenButton";
 import PasswordError from "@/components/album/PasswordError";
@@ -57,7 +58,7 @@ export default function PasswordForm({ slug }: { slug: string }) {
       {showError && <PasswordError status={state.status} />}
 
       <p className="mt-2 text-sm text-muted-foreground">
-        Stays open on this browser for 12 hours.
+        Stays open on this browser for {SESSION_HOURS} hours.
       </p>
     </form>
   );

@@ -1,14 +1,13 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { jwtVerify, SignJWT } from "jose";
+import { SESSION_HOURS } from "@/lib/albums/sessionConfig";
 
 if (!process.env.ALBUM_SESSION_SECRET) {
   throw new Error("Missing ALBUM_SESSION_SECRET environment variable.");
 }
 
 const secret = new TextEncoder().encode(process.env.ALBUM_SESSION_SECRET);
-
-const SESSION_HOURS = 4;
 
 type SessionAlbum = {
   id: string;
