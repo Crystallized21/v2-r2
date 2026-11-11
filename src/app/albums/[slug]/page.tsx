@@ -37,7 +37,7 @@ export default async function AlbumPage({
         </h1>
       </div>
 
-      <PasswordForm />
+      <PasswordForm slug={album.slug} />
     </div>
   );
 }

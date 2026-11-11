@@ -3,31 +3,25 @@
 import { useActionState, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { unlockAlbum, type UnlockState } from "@/app/albums/[slug]/actions";
 
-type UnlockState = {
-  status: "idle" | "error" | "ok";
-  attempt: number;
-};
-
-async function fakeUnlock(prev: UnlockState, formData: FormData): Promise<UnlockState> {
-  await new Promise((resolve) => setTimeout(resolve, 900));
-  const ok = formData.get("password") === "spectra";
-  return { status: ok ? "ok" : "error", attempt: prev.attempt + 1 };
-}
-
-export default function PasswordForm() {
-  const [state, formAction, pending] = useActionState<UnlockState, FormData>(fakeUnlock, {
-    status: "idle",
-    attempt: 0,
-  });
+export default function PasswordForm({ slug }: { slug: string }) {
+  const [state, formAction, pending] = useActionState<UnlockState, FormData>(
+    unlockAlbum.bind(null, slug),
+    { status: "idle", attempt: 0 },
+  );
   // Hide the error as soon as the visitor starts retyping
   const [editedAfter, setEditedAfter] = useState(0);
-  const showError = state.status === "error" && editedAfter !== state.attempt && !pending;
+  const showError =
+    (state.status === "error" || state.status === "failed") &&
+    editedAfter !== state.attempt &&
+    !pending;
 
   if (state.status === "ok") {
+    // TODO(milestone 2): the session cookie + page refresh replace this with the gallery
     return (
       <p className="mt-18 text-lg font-light motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500">
-        Opening album…
+        Password accepted.
       </p>
     );
   }
@@ -99,7 +93,9 @@ export default function PasswordForm() {
           role="alert"
           className="text-sm text-destructive motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top-1 motion-safe:duration-300"
         >
-          That isn&apos;t it. Check the message the password came in.
+          {state.status === "failed"
+            ? "Something went wrong on our side. Try again in a moment."
+            : "That isn't it. Check the message the password came in."}
         </p>
       )}
 
