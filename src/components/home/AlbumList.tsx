@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LinkUnderline from "@/components/layout/LinkUnderline";
 import { getAlbums } from "@/lib/albums/getAlbums";
 import { groupAlbumsByDate } from "@/lib/albums/groupAlbumsByDate";
 import { formatPrettyDate } from "@/lib/format/formatPrettyDate";
@@ -19,8 +20,7 @@ export default async function AlbumList() {
               <Link key={album.id} href={`/albums/${album.slug}`}>
                 <h1 className="text-2xl py-2 relative block w-fit cursor-pointer group">
                   {album.name}
-                  <span
-                    className="absolute bottom-0 left-0 w-0 h-0.5 bg-current group-hover:w-full transition-all duration-300"></span>
+                  <LinkUnderline growOnHover />
                 </h1>
               </Link>
             ))}

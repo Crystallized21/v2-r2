@@ -5,6 +5,7 @@ import PasswordForm from "@/components/unlock/PasswordForm";
 import { getAlbumBySlug } from "@/lib/albums/getAlbumBySlug";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import LinkUnderline from "@/components/layout/LinkUnderline";
 import { formatPrettyDate } from "@/lib/format/formatPrettyDate";
 import { hasAlbumSession } from "@/lib/access/albumSession";
 import { getAlbumArchive } from "@/lib/photos/getAlbumArchive";
@@ -45,7 +46,10 @@ export default async function AlbumPage({
         className="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-4"
       >
         <ArrowLeft className="size-4" aria-hidden="true" />
-        All albums
+        <span className="relative py-1">
+          All albums
+          <LinkUnderline className="h-px" />
+        </span>
       </Link>
 
       <div className="mt-8 flex flex-wrap items-end justify-between gap-x-8 gap-y-6 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700">
