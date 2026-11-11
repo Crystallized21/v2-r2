@@ -2,7 +2,7 @@
 
 my photo site for sharing albums with clients. every album has its own password, the photos live in a private cloudflare r2 bucket, and nothing leaves that bucket until someone has unlocked the album.
 
-this is a rewrite of my old site. the old one worked, but this time i wanted the security to actually hold up and the code to still make sense when i come back to it in six months.
+this is a rewrite of my old site. the old one worked, but i wanted to make the switch to object storage to have more control rather than dealing with baas shenanigans.
 
 ## what it does
 
