@@ -25,10 +25,9 @@ export default function PasswordForm({ slug }: { slug: string }) {
   const showError = hasError && !hasRetyped && !pending;
 
   if (state.status === "ok") {
-    // TODO(milestone 2): the session cookie + page refresh replace this with the gallery
     return (
       <p className="mt-18 text-lg font-light motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500">
-        Password accepted.
+        Opening album…
       </p>
     );
   }

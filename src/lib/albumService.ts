@@ -45,7 +45,7 @@ export function groupAlbumsByDate( albums: Album[] ): Record<string, Album[]> {
 export async function getAlbumBySlug(slug: string) {
   const { data, error } = await db
     .from("albums")
-    .select("id, name, slug, event_date")
+    .select("id, name, slug, event_date, password_version")
     .eq("slug", slug)
     .eq("published", true)
     .maybeSingle();

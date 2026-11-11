@@ -5,6 +5,7 @@ import NameHeader from "@/components/home/NameHeader";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { formatPrettyDate } from "@/lib/formatPrettyDate";
+import { hasAlbumSession } from "@/lib/albumSession";
 
 export default async function AlbumPage({
   params,
@@ -16,6 +17,8 @@ export default async function AlbumPage({
   const album = await getAlbumBySlug(slug);
 
   if (!album) notFound();
+
+  const unlocked = await hasAlbumSession(album);
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6">
@@ -37,7 +40,14 @@ export default async function AlbumPage({
         </h1>
       </div>
 
-      <PasswordForm slug={album.slug} />
+      {unlocked ? (
+        // TODO(milestone 5): replace with <AlbumGallery />
+        <p className="mt-18 text-lg font-light motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500">
+          Album unlocked!
+        </p>
+      ) : (
+        <PasswordForm slug={album.slug} />
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import * as Sentry from "@sentry/nextjs";
 import { verify } from "@node-rs/argon2";
 import { getAlbumCredentials } from "@/lib/albumCredentials";
+import { createAlbumSession } from "@/lib/albumSession";
 import { UnlockState } from "@/types/unlock";
 
 // Called by PasswordForm when the visitor submits a password.
@@ -38,7 +39,7 @@ export async function unlockAlbum(
       return { status: "wrong", attempt };
     }
 
-    // TODO(milestone 2): set the album session cookie here
+    await createAlbumSession(album);
 
     return { status: "ok", attempt };
   } catch (err) {
