@@ -7,6 +7,7 @@ const USAGE = `Usage:
   pnpm album add <slug> <folder>   add photos to an album (skips ones already there)
   pnpm album password <slug>       change an album's password
   pnpm album publish <slug>        make an album visible on the site
+  pnpm album zip <slug>            rebuild the "download all" zip
 
 See scripts/README.md for setup.`;
 
@@ -15,6 +16,7 @@ function isValidCommand(command: string | undefined, args: string[]) {
   if (command === "add") return args.length === 2;
   if (command === "password") return args.length === 1;
   if (command === "publish") return args.length === 1;
+  if (command === "zip") return args.length === 1;
   return false;
 }
 
@@ -48,6 +50,9 @@ async function main() {
   } else if (command === "publish") {
     const { publishAlbum } = await import("./commands/publishAlbum");
     await publishAlbum(args[0]);
+  } else if (command === "zip") {
+    const { zipAlbum } = await import("./commands/zipAlbum");
+    await zipAlbum(args[0]);
   }
 }
 

@@ -1,4 +1,6 @@
 import path from "node:path";
+import { confirm } from "@inquirer/prompts";
+import { buildAlbumZip } from "../lib/buildAlbumZip";
 import { db } from "../lib/clients";
 import { findAlbum } from "../lib/findAlbum";
 import { findPhotos } from "../lib/findPhotos";
@@ -38,6 +40,13 @@ export async function addPhotos(slug: string, folder: string) {
   console.log(`Uploading ${photos.length} photos to "${album.name}"...`);
   await uploadPhotos(album.id, photos);
   await updateSortOrder(album.id);
+
+  // the old zip doesn't have the new photos
+  const shouldZip = await confirm({ message: "Rebuild the \"download all\" zip?", default: true });
+
+  if (shouldZip) {
+    await buildAlbumZip(album);
+  }
 
   console.log(`\nDone. Added ${photos.length} photos to /albums/${album.slug}${album.published ? "" : " (not published)"}`);
 }

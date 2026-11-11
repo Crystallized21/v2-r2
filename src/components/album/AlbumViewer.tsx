@@ -3,15 +3,18 @@
 import { useState } from "react";
 import AlbumGallery from "@/components/album/AlbumGallery";
 import AlbumLightbox from "@/components/album/AlbumLightbox";
+import DownloadAllLink from "@/components/album/DownloadAllLink";
 import { GalleryPhoto } from "@/types/photo";
 
 type AlbumViewerProps = {
   photos: GalleryPhoto[];
   albumName: string;
   albumSlug: string;
+  // null when the album has no zip yet
+  archiveSizeBytes: number | null;
 };
 
-export default function AlbumViewer({ photos, albumName, albumSlug }: AlbumViewerProps) {
+export default function AlbumViewer({ photos, albumName, albumSlug, archiveSizeBytes }: AlbumViewerProps) {
   // -1 means the lightbox is closed
   const [lightboxIndex, setLightboxIndex] = useState(-1);
 
@@ -25,6 +28,11 @@ export default function AlbumViewer({ photos, albumName, albumSlug }: AlbumViewe
 
   return (
     <div className="mt-16 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-700">
+      {archiveSizeBytes !== null && (
+        <div className="mb-4 flex justify-end">
+          <DownloadAllLink albumSlug={albumSlug} sizeBytes={archiveSizeBytes} />
+        </div>
+      )}
       <AlbumGallery photos={photos} albumName={albumName} onImageClick={setLightboxIndex} />
       <AlbumLightbox
         photos={photos}

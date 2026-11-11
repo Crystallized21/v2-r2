@@ -1,6 +1,7 @@
 import { confirm, input } from "@inquirer/prompts";
 import { db } from "../lib/clients";
 import { askPasswordHash } from "../lib/askPasswordHash";
+import { buildAlbumZip } from "../lib/buildAlbumZip";
 import { findPhotos } from "../lib/findPhotos";
 import { readAllPhotoInfo } from "../lib/readAllPhotoInfo";
 import { updateSortOrder } from "../lib/updateSortOrder";
@@ -65,6 +66,12 @@ export async function createAlbum(folder: string) {
   } catch (err) {
     console.error(`\nUpload stopped. The album exists but isn't published. To carry on:\n  pnpm album add ${slug} "${folder}"\n`);
     throw err;
+  }
+
+  const shouldZip = await confirm({ message: "Build the \"download all\" zip now?", default: true });
+
+  if (shouldZip) {
+    await buildAlbumZip({ id: album.id, name });
   }
 
   const shouldPublish = await confirm({ message: "Publish now?", default: true });

@@ -30,12 +30,15 @@
     "yet-another-react-lightbox": "^3.33.0"
   },
   "devDependencies": {
+    "@aws-sdk/lib-storage": "^3.1165.0",
     "@inquirer/prompts": "^8.7.5",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/postcss": "^4",
+    "@types/archiver": "^8.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "archiver": "^8.0.0",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",

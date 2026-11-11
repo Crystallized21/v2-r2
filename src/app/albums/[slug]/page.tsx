@@ -7,6 +7,7 @@ import Link from "next/link";
 import { formatPrettyDate } from "@/lib/formatPrettyDate";
 import { hasAlbumSession } from "@/lib/albums/albumSession";
 import { getGalleryPhotos } from "@/lib/albums/getGalleryPhotos";
+import { getAlbumArchive } from "@/lib/albums/getAlbumArchive";
 import AlbumViewer from "@/components/album/AlbumViewer";
 
 export default async function AlbumPage({
@@ -22,6 +23,7 @@ export default async function AlbumPage({
 
   const unlocked = await hasAlbumSession(album);
   const photos = unlocked ? await getGalleryPhotos(album.id) : [];
+  const archive = unlocked ? await getAlbumArchive(album.id) : null;
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6">
@@ -44,7 +46,12 @@ export default async function AlbumPage({
       </div>
 
       {unlocked ? (
-        <AlbumViewer photos={photos} albumName={album.name} albumSlug={album.slug} />
+        <AlbumViewer
+          photos={photos}
+          albumName={album.name}
+          albumSlug={album.slug}
+          archiveSizeBytes={archive?.size_bytes ?? null}
+        />
       ) : (
         <PasswordForm slug={album.slug} />
       )}

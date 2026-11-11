@@ -7,6 +7,7 @@ pnpm album new <folder>          # create an album from a folder of JPEGs
 pnpm album add <slug> <folder>   # add photos to an album, skips ones already there
 pnpm album password <slug>       # change an album's password
 pnpm album publish <slug>        # make an album visible on the site
+pnpm album zip <slug>            # rebuild the "download all" zip
 ```
 
 ## Setup
@@ -70,6 +71,16 @@ Sets a new password. Everyone who unlocked the album with the old one is logged 
 
 Publishes an album you didn't publish during `new`.
 
+### `pnpm album zip <slug>`
+
+Builds the zip behind the "Download all" link on the album page. `new` and `add` offer to do this at the end, so you only need it on its own if you said no, or for albums uploaded before zips existed.
+
+It's made from the copies already in R2 (GPS removed), not your local folder. Each photo is downloaded and the zip is uploaded back as it's built, so nothing big is held in memory or saved to disk, but the whole album does go through your connection twice. A 2 GB album takes a while on home internet.
+
+Photos are stored in the zip as they are, without compression, since JPEGs don't shrink anyway. The old zip keeps working until the new one has finished uploading.
+
+The link only shows on the site once an album has a zip.
+
 ## What happens to each photo
 
 1. A copy is made and **GPS location is removed** from it (EXIF and XMP). Capture time, camera, lens and everything else stays. The image isn't re-compressed, so the file is otherwise identical to your export.
@@ -79,6 +90,7 @@ Publishes an album you didn't publish during `new`.
    albums/<album id>/<filename>/original.jpg
    albums/<album id>/<filename>/preview.webp
    albums/<album id>/<filename>/thumbnail.webp
+   albums/<album id>/archive.zip               (from pnpm album zip)
    ```
 4. The photo is added to the database.
 
