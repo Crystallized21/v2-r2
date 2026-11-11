@@ -1,15 +1,13 @@
 ﻿import * as Sentry from "@sentry/nextjs";
-import { createClient } from "@/utils/supabase/server";
+import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { AlbumListRow } from "@/types/album";
 
 export async function GET() {
-  const supabase = await createClient();
-
   try {
     Sentry.logger.info("Fetching albums from Supabase...");
 
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from("albums")
       .select("id, slug, name, event_date")
       .eq("published", true);
