@@ -2,10 +2,10 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { verify } from "@node-rs/argon2";
-import { getAlbumCredentials } from "@/lib/albums/getAlbumCredentials";
-import { createAlbumSession } from "@/lib/albums/albumSession";
-import { clearLoginAttempts, registerLoginAttempt } from "@/lib/albums/loginAttempts";
-import { MAX_ATTEMPTS } from "@/lib/albums/rateLimitConfig";
+import { getAlbumCredentials } from "@/lib/access/getAlbumCredentials";
+import { createAlbumSession } from "@/lib/access/albumSession";
+import { clearLoginAttempts, registerLoginAttempt } from "@/lib/access/loginAttempts";
+import { MAX_ATTEMPTS } from "@/lib/access/config";
 import { UnlockState } from "@/types/unlock";
 
 export async function unlockAlbum(

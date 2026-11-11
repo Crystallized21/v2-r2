@@ -1,13 +1,13 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import { unlockAlbum } from "@/app/albums/[slug]/actions";
 import { UnlockState } from "@/types/unlock";
-import { SESSION_HOURS } from "@/lib/albums/sessionConfig";
-import PasswordInput from "@/components/album/PasswordInput";
-import OpenButton from "@/components/album/OpenButton";
-import PasswordError from "@/components/album/PasswordError";
+import { SESSION_HOURS } from "@/lib/access/config";
+import PasswordInput from "@/components/unlock/PasswordInput";
+import OpenButton from "@/components/unlock/OpenButton";
+import PasswordError from "@/components/unlock/PasswordError";
 
 const initialState: UnlockState = { status: "idle", attempt: 0 };
 

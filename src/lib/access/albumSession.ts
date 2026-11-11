@@ -1,7 +1,7 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { jwtVerify, SignJWT } from "jose";
-import { SESSION_HOURS } from "@/lib/albums/sessionConfig";
+import { SESSION_HOURS } from "@/lib/access/config";
 
 if (!process.env.ALBUM_SESSION_SECRET) {
   throw new Error("Missing ALBUM_SESSION_SECRET environment variable.");

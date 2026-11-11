@@ -120,10 +120,13 @@ export type Database = {
           created_at: string
           height: number | null
           id: string
+          original_filename: string
           r2_key_original: string
           r2_key_preview: string
           r2_key_thumbnail: string
+          size_bytes: number | null
           sort_order: number
+          taken_at: string | null
           width: number | null
         }
         Insert: {
@@ -131,10 +134,13 @@ export type Database = {
           created_at?: string
           height?: number | null
           id?: string
+          original_filename: string
           r2_key_original: string
           r2_key_preview: string
           r2_key_thumbnail: string
+          size_bytes?: number | null
           sort_order?: number
+          taken_at?: string | null
           width?: number | null
         }
         Update: {
@@ -142,10 +148,13 @@ export type Database = {
           created_at?: string
           height?: number | null
           id?: string
+          original_filename?: string
           r2_key_original?: string
           r2_key_preview?: string
           r2_key_thumbnail?: string
+          size_bytes?: number | null
           sort_order?: number
+          taken_at?: string | null
           width?: number | null
         }
         Relationships: [
