@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import PasswordForm from "@/components/unlock/PasswordForm";
 import { getAlbumBySlug } from "@/lib/albums/getAlbumBySlug";
@@ -5,9 +6,10 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { formatPrettyDate } from "@/lib/format/formatPrettyDate";
 import { hasAlbumSession } from "@/lib/access/albumSession";
-import { getGalleryPhotos } from "@/lib/photos/getGalleryPhotos";
 import { getAlbumArchive } from "@/lib/photos/getAlbumArchive";
-import AlbumViewer from "@/components/gallery/AlbumViewer";
+import AlbumPhotos from "@/components/gallery/AlbumPhotos";
+import GallerySkeleton from "@/components/gallery/GallerySkeleton";
+import DownloadAllLink from "@/components/gallery/DownloadAllLink";
 
 export default async function AlbumPage({
   params,
@@ -21,7 +23,6 @@ export default async function AlbumPage({
   if (!album) notFound();
 
   const unlocked = await hasAlbumSession(album);
-  const photos = unlocked ? await getGalleryPhotos(album.id) : [];
   const archive = unlocked ? await getAlbumArchive(album.id) : null;
 
   return (
@@ -34,22 +35,25 @@ export default async function AlbumPage({
         All albums
       </Link>
 
-      <div className="mt-24 flex flex-col gap-3 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700">
-        <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-          {formatPrettyDate(album.event_date)}
-        </p>
-        <h1 className="text-6xl font-extralight leading-tight">
-          {album.name}
-        </h1>
+      <div className="mt-8 flex flex-wrap items-end justify-between gap-x-8 gap-y-6 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700">
+        <div className="flex flex-col gap-3">
+          <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            {formatPrettyDate(album.event_date)}
+          </p>
+          <h1 className="text-6xl font-extralight leading-tight">
+            {album.name}
+          </h1>
+        </div>
+
+        {archive && archive.size_bytes !== null && (
+          <DownloadAllLink albumSlug={album.slug} sizeBytes={archive.size_bytes} />
+        )}
       </div>
 
       {unlocked ? (
-        <AlbumViewer
-          photos={photos}
-          albumName={album.name}
-          albumSlug={album.slug}
-          archiveSizeBytes={archive?.size_bytes ?? null}
-        />
+        <Suspense fallback={<GallerySkeleton />}>
+          <AlbumPhotos albumId={album.id} albumName={album.name} albumSlug={album.slug} />
+        </Suspense>
       ) : (
         <PasswordForm slug={album.slug} />
       )}
