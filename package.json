@@ -12,9 +12,10 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1141.0",
+    "@aws-sdk/lib-storage": "^3.1165.0",
     "@aws-sdk/s3-request-presigner": "^3.1141.0",
     "@node-rs/argon2": "^2.2.2",
-    "@sentry/nextjs": "^11.0.0",
+    "@sentry/nextjs": "^11.11.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.2",
     "cn": "^0.4.0",
@@ -30,7 +31,6 @@
     "yet-another-react-lightbox": "^3.33.0"
   },
   "devDependencies": {
-    "@aws-sdk/lib-storage": "^3.1165.0",
     "@inquirer/prompts": "^8.7.5",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/postcss": "^4",
@@ -41,7 +41,7 @@
     "archiver": "^8.0.0",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
-    "eslint-config-next": "16.3.6",
+    "eslint-config-next": "16.4.1",
     "exiftool-vendored": "^39.2.0",
     "sharp": "^0.35.5",
     "supabase": "^2.119.0",
