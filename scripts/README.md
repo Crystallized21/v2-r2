@@ -125,6 +125,9 @@ Only JPEGs are picked up. Other files in the folder are listed and ignored.
 scripts/
 ├── album.ts            entry point, checks env, picks the command
 ├── commands/           one file per command
-└── lib/                the steps: finding photos, reading EXIF, stripping GPS,
-                        resizing, uploading, sorting
+└── lib/
+    ├── setup/          Supabase + R2 clients, env check, friendly error messages
+    ├── photos/         finding JPEGs, reading EXIF, stripping GPS, making thumbnails
+    ├── upload/         uploading to R2, sorting, building the zip
+    └── albums/         looking up an album, asking for a password
 ```

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import AlbumGallery from "@/components/album/AlbumGallery";
-import AlbumLightbox from "@/components/album/AlbumLightbox";
-import DownloadAllLink from "@/components/album/DownloadAllLink";
+import AlbumGallery from "@/components/gallery/AlbumGallery";
+import AlbumLightbox from "@/components/gallery/AlbumLightbox";
+import DownloadAllLink from "@/components/gallery/DownloadAllLink";
 import { GalleryPhoto } from "@/types/photo";
-import { useFreshPhotoUrls } from "@/hooks/useFreshPhotoUrls";
-import { reportPhotoLoadError } from "@/lib/reportPhotoLoadError";
+import { useFreshPhotoUrls } from "@/components/gallery/useFreshPhotoUrls";
+import { reportPhotoLoadError } from "@/components/gallery/reportPhotoLoadError";
 
 type AlbumViewerProps = {
   photos: GalleryPhoto[];

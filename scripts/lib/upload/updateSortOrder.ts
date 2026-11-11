@@ -1,4 +1,4 @@
-import { db } from "./clients";
+import { db } from "../setup/clients";
 
 type SortablePhoto = {
   id: string;

@@ -1,5 +1,5 @@
 import { UnlockStatus } from "@/types/unlock";
-import { WINDOW_MINUTES } from "@/lib/albums/rateLimitConfig";
+import { WINDOW_MINUTES } from "@/lib/access/config";
 
 function getMessage(status: UnlockStatus) {
   if (status === "wrong") {

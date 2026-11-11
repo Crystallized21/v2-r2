@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { getAlbumBySlug } from "@/lib/albums/getAlbumBySlug";
-import { hasAlbumSession } from "@/lib/albums/albumSession";
-import { getPhotoForDownload } from "@/lib/albums/getPhotoForDownload";
-import { signDownloadUrl } from "@/lib/albums/signDownloadUrl";
+import { getUnlockedAlbum } from "@/lib/access/getUnlockedAlbum";
+import { getPhotoForDownload } from "@/lib/photos/getPhotoForDownload";
+import { signDownloadUrl } from "@/lib/photos/signDownloadUrl";
 
 const NO_STORE = { "Cache-Control": "private, no-store" };
 
@@ -12,14 +11,10 @@ export async function GET(
 ) {
   const { slug, photoId } = await params;
 
-  const album = await getAlbumBySlug(slug);
+  const { album, response } = await getUnlockedAlbum(slug);
 
   if (!album) {
-    return NextResponse.json({ error: "Not found" }, { status: 404, headers: NO_STORE });
-  }
-
-  if (!(await hasAlbumSession(album))) {
-    return NextResponse.json({ error: "Album is locked" }, { status: 401, headers: NO_STORE });
+    return response;
   }
 
   const photo = await getPhotoForDownload(album.id, photoId);

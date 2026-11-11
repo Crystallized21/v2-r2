@@ -1,4 +1,4 @@
-import { db } from "./clients";
+import { db } from "../setup/clients";
 
 // unlike the site's getAlbumBySlug, this also finds unpublished albums
 export async function findAlbum(slug: string) {

@@ -1,5 +1,5 @@
 import { Download } from "lucide-react";
-import { formatFileSize } from "@/lib/formatFileSize";
+import { formatFileSize } from "@/lib/format/formatFileSize";
 
 type DownloadAllLinkProps = {
   albumSlug: string;

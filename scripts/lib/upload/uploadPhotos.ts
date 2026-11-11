@@ -1,4 +1,4 @@
-import { PhotoInfo } from "./readPhotoInfo";
+import { PhotoInfo } from "../photos/readPhotoInfo";
 import { uploadPhoto } from "./uploadPhoto";
 
 const AT_ONCE = 4;

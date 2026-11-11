@@ -1,5 +1,5 @@
-import { db } from "../lib/clients";
-import { findAlbum } from "../lib/findAlbum";
+import { db } from "../lib/setup/clients";
+import { findAlbum } from "../lib/albums/findAlbum";
 
 export async function publishAlbum(slug: string) {
   const album = await findAlbum(slug);

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getAlbums } from "@/lib/albums/getAlbums";
 import { groupAlbumsByDate } from "@/lib/albums/groupAlbumsByDate";
-import { formatPrettyDate } from "@/lib/formatPrettyDate";
+import { formatPrettyDate } from "@/lib/format/formatPrettyDate";
 
 export default async function AlbumList() {
   const albums = await getAlbums();

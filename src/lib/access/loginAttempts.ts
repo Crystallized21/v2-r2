@@ -2,7 +2,7 @@ import "server-only";
 import { createHmac } from "node:crypto";
 import { headers } from "next/headers";
 import { db } from "@/lib/clients/db";
-import { WINDOW_MINUTES } from "@/lib/albums/rateLimitConfig";
+import { WINDOW_MINUTES } from "@/lib/access/config";
 
 async function getIpHash() {
   const headerStore = await headers();

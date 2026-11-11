@@ -1,12 +1,12 @@
 import path from "node:path";
 import { confirm } from "@inquirer/prompts";
-import { buildAlbumZip } from "../lib/buildAlbumZip";
-import { db } from "../lib/clients";
-import { findAlbum } from "../lib/findAlbum";
-import { findPhotos } from "../lib/findPhotos";
-import { readAllPhotoInfo } from "../lib/readAllPhotoInfo";
-import { updateSortOrder } from "../lib/updateSortOrder";
-import { uploadPhotos } from "../lib/uploadPhotos";
+import { buildAlbumZip } from "../lib/upload/buildAlbumZip";
+import { db } from "../lib/setup/clients";
+import { findAlbum } from "../lib/albums/findAlbum";
+import { findPhotos } from "../lib/photos/findPhotos";
+import { readAllPhotoInfo } from "../lib/photos/readPhotoInfo";
+import { updateSortOrder } from "../lib/upload/updateSortOrder";
+import { uploadPhotos } from "../lib/upload/uploadPhotos";
 
 async function getUploadedFilenames(albumId: string) {
   const { data, error } = await db.from("photos").select("original_filename").eq("album_id", albumId);

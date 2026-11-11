@@ -1,6 +1,6 @@
 import "server-only";
 import { db } from "@/lib/clients/db";
-import { signPhotoUrl } from "@/lib/albums/signPhotoUrl";
+import { signPhotoUrl } from "@/lib/photos/signPhotoUrl";
 import { GalleryPhoto } from "@/types/photo";
 
 // Only call this after checking the album session, the URLs give access to the photos

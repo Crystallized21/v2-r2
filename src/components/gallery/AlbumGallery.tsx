@@ -1,7 +1,7 @@
 "use client";
 
 import Masonry from "react-masonry-css";
-import ImageContainer from "@/components/album/ImageContainer";
+import ImageContainer from "@/components/gallery/ImageContainer";
 import { GalleryPhoto } from "@/types/photo";
 
 type AlbumGalleryProps = {

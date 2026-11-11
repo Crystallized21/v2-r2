@@ -1,9 +1,9 @@
 import { readFile, rm } from "node:fs/promises";
 import path from "node:path";
-import { db } from "./clients";
-import { makeVersions } from "./makeVersions";
-import { PhotoInfo } from "./readPhotoInfo";
-import { stripGps } from "./stripGps";
+import { db } from "../setup/clients";
+import { makeVersions } from "../photos/makeVersions";
+import { PhotoInfo } from "../photos/readPhotoInfo";
+import { stripGps } from "../photos/stripGps";
 import { uploadToR2 } from "./uploadToR2";
 
 // "IMG 0012.jpg" -> "IMG-0012"

@@ -1,14 +1,13 @@
 import { notFound } from "next/navigation";
-import PasswordForm from "@/components/album/PasswordForm";
+import PasswordForm from "@/components/unlock/PasswordForm";
 import { getAlbumBySlug } from "@/lib/albums/getAlbumBySlug";
-import NameHeader from "@/components/home/NameHeader";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { formatPrettyDate } from "@/lib/formatPrettyDate";
-import { hasAlbumSession } from "@/lib/albums/albumSession";
-import { getGalleryPhotos } from "@/lib/albums/getGalleryPhotos";
-import { getAlbumArchive } from "@/lib/albums/getAlbumArchive";
-import AlbumViewer from "@/components/album/AlbumViewer";
+import { formatPrettyDate } from "@/lib/format/formatPrettyDate";
+import { hasAlbumSession } from "@/lib/access/albumSession";
+import { getGalleryPhotos } from "@/lib/photos/getGalleryPhotos";
+import { getAlbumArchive } from "@/lib/photos/getAlbumArchive";
+import AlbumViewer from "@/components/gallery/AlbumViewer";
 
 export default async function AlbumPage({
   params,
@@ -26,8 +25,7 @@ export default async function AlbumPage({
   const archive = unlocked ? await getAlbumArchive(album.id) : null;
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6">
-      <NameHeader/>
+    <>
       <Link
         href="/"
         className="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-4"
@@ -55,6 +53,6 @@ export default async function AlbumPage({
       ) : (
         <PasswordForm slug={album.slug} />
       )}
-    </div>
+    </>
   );
 }

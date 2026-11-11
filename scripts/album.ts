@@ -1,6 +1,6 @@
 import { exiftool } from "exiftool-vendored";
-import { getMissingEnv } from "./lib/checkEnv";
-import { describeError } from "./lib/describeError";
+import { getMissingEnv } from "./lib/setup/checkEnv";
+import { describeError } from "./lib/setup/describeError";
 
 const USAGE = `Usage:
   pnpm album new <folder>          create an album from a folder of JPEGs

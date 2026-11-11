@@ -3,7 +3,7 @@ import { PassThrough, Readable } from "node:stream";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import { ZipArchive } from "archiver";
-import { BUCKET, db, s3 } from "./clients";
+import { BUCKET, db, s3 } from "../setup/clients";
 
 type ZipAlbum = {
   id: string;

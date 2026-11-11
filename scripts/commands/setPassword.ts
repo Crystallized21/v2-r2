@@ -1,6 +1,6 @@
-import { db } from "../lib/clients";
-import { askPasswordHash } from "../lib/askPasswordHash";
-import { findAlbum } from "../lib/findAlbum";
+import { db } from "../lib/setup/clients";
+import { askPasswordHash } from "../lib/albums/askPasswordHash";
+import { findAlbum } from "../lib/albums/findAlbum";
 
 export async function setPassword(slug: string) {
   const album = await findAlbum(slug);

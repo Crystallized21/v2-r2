@@ -1,5 +1,5 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { BUCKET, s3 } from "./clients";
+import { BUCKET, s3 } from "../setup/clients";
 
 export async function uploadToR2(key: string, body: Buffer, contentType: string) {
   await s3.send(new PutObjectCommand({

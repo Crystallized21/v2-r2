@@ -1,11 +1,11 @@
 import { confirm, input } from "@inquirer/prompts";
-import { db } from "../lib/clients";
-import { askPasswordHash } from "../lib/askPasswordHash";
-import { buildAlbumZip } from "../lib/buildAlbumZip";
-import { findPhotos } from "../lib/findPhotos";
-import { readAllPhotoInfo } from "../lib/readAllPhotoInfo";
-import { updateSortOrder } from "../lib/updateSortOrder";
-import { uploadPhotos } from "../lib/uploadPhotos";
+import { db } from "../lib/setup/clients";
+import { askPasswordHash } from "../lib/albums/askPasswordHash";
+import { buildAlbumZip } from "../lib/upload/buildAlbumZip";
+import { findPhotos } from "../lib/photos/findPhotos";
+import { readAllPhotoInfo } from "../lib/photos/readPhotoInfo";
+import { updateSortOrder } from "../lib/upload/updateSortOrder";
+import { uploadPhotos } from "../lib/upload/uploadPhotos";
 
 async function isSlugTaken(slug: string) {
   const { data, error } = await db.from("albums").select("id").eq("slug", slug).maybeSingle();
