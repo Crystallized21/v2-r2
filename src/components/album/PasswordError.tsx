@@ -1,8 +1,13 @@
 import { UnlockStatus } from "@/types/unlock";
+import { WINDOW_MINUTES } from "@/lib/albums/rateLimitConfig";
 
 function getMessage(status: UnlockStatus) {
   if (status === "wrong") {
     return "That isn't it. Check the message the password came in.";
+  }
+
+  if (status === "locked") {
+    return `Too many attempts. Try again in ${WINDOW_MINUTES} minutes.`;
   }
 
   if (status === "failed") {

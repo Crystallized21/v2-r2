@@ -4,6 +4,8 @@ import * as Sentry from "@sentry/nextjs";
 import { verify } from "@node-rs/argon2";
 import { getAlbumCredentials } from "@/lib/albums/getAlbumCredentials";
 import { createAlbumSession } from "@/lib/albums/albumSession";
+import { clearLoginAttempts, registerLoginAttempt } from "@/lib/albums/loginAttempts";
+import { MAX_ATTEMPTS } from "@/lib/albums/rateLimitConfig";
 import { UnlockState } from "@/types/unlock";
 
 // Called by PasswordForm when the visitor submits a password.
@@ -31,7 +33,12 @@ export async function unlockAlbum(
       return { status: "wrong", attempt };
     }
 
-    // TODO(milestone 3): rate limit before verifying
+    // Counted before verifying, so once locked we don't even check the password
+    const attemptCount = await registerLoginAttempt(album.id);
+
+    if (attemptCount > MAX_ATTEMPTS) {
+      return { status: "locked", attempt };
+    }
 
     const passwordMatches = await verify(album.password_hash, password);
 
@@ -39,6 +46,7 @@ export async function unlockAlbum(
       return { status: "wrong", attempt };
     }
 
+    await clearLoginAttempts(album.id);
     await createAlbumSession(album);
 
     return { status: "ok", attempt };

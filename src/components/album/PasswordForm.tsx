@@ -21,7 +21,10 @@ export default function PasswordForm({ slug }: { slug: string }) {
   // Used to hide the error message as soon as they type again.
   const [editedAfterAttempt, setEditedAfterAttempt] = useState(0);
 
-  const hasError = state.status === "wrong" || state.status === "failed";
+  const hasError =
+    state.status === "wrong" ||
+    state.status === "locked" ||
+    state.status === "failed";
   const hasRetyped = editedAfterAttempt === state.attempt;
   const showError = hasError && !hasRetyped && !pending;
 

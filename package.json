@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:types": "supabase gen types typescript > src/types/database.types.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1141.0",
