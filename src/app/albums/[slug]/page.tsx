@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PasswordForm from "@/components/unlock/PasswordForm";
 import { getAlbumBySlug } from "@/lib/albums/getAlbumBySlug";
@@ -10,6 +11,18 @@ import { getAlbumArchive } from "@/lib/photos/getAlbumArchive";
 import AlbumPhotos from "@/components/gallery/AlbumPhotos";
 import GallerySkeleton from "@/components/gallery/GallerySkeleton";
 import DownloadAllLink from "@/components/gallery/DownloadAllLink";
+
+export async function generateMetadata({ params }: PageProps<"/albums/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const album = await getAlbumBySlug(slug);
+
+  // a missing album gets its title from not-found.tsx
+  if (!album) {
+    return {};
+  }
+
+  return { title: album.name };
+}
 
 export default async function AlbumPage({
   params,

@@ -15,7 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Crystal's Spectra Vault",
+  title: {
+    default: "Crystal's Spectra Vault",
+    // album pages fill in %s with their name
+    template: "%s · Crystal's Spectra Vault",
+  },
   description: "...",
 };
 
