@@ -1,9 +1,10 @@
-﻿import Link from "next/link";
-import { fetchAlbums, groupAlbumsByDate } from "@/lib/albumService";
+import Link from "next/link";
+import { getAlbums } from "@/lib/albums/getAlbums";
+import { groupAlbumsByDate } from "@/lib/albums/groupAlbumsByDate";
 import { formatPrettyDate } from "@/lib/formatPrettyDate";
 
 export default async function AlbumList() {
-  const albums = await fetchAlbums();
+  const albums = await getAlbums();
   const groupedAlbums = groupAlbumsByDate(albums);
 
   return (
@@ -15,7 +16,7 @@ export default async function AlbumList() {
           </h2>
           <div className="flex flex-col">
             {dateAlbums.map(( album ) => (
-              <Link key={album.id} href={`/albums/${album.id}`}>
+              <Link key={album.id} href={`/albums/${album.slug}`}>
                 <h1 className="text-2xl py-2 relative block w-fit cursor-pointer group">
                   {album.name}
                   <span
