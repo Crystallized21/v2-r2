@@ -43,6 +43,23 @@
     --radius-xl: calc(var(--radius) + 4px);
 }
 
+@theme {
+    --animate-shake: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    --animate-indeterminate: indeterminate 1.1s ease-in-out infinite;
+
+    @keyframes shake {
+        10%, 90% { translate: -1px 0; }
+        20%, 80% { translate: 2px 0; }
+        30%, 50%, 70% { translate: -4px 0; }
+        40%, 60% { translate: 4px 0; }
+    }
+
+    @keyframes indeterminate {
+        from { translate: -100% 0; }
+        to { translate: 300% 0; }
+    }
+}
+
 :root {
     --radius: 0.625rem;
     --background: oklch(1 0 0);
