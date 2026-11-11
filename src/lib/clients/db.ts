@@ -6,7 +6,7 @@ if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SECRET_KEY) {
   throw new Error("Missing required Supabase environment variables.");
 }
 
-// Secret key bypasses RLS. Only ever import this from server code.
+// secret key bypasses RLS, server only
 export const db = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.SUPABASE_SECRET_KEY,

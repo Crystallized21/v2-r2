@@ -1,14 +1,9 @@
--- Rate limiting for album password attempts.
--- One row per (album, visitor IP hash). The app calls register_login_attempt
--- before checking a password, and deletes the row after a correct password.
-
 alter table public.login_attempts enable row level security;
 
 create unique index if not exists login_attempts_album_ip_key
   on public.login_attempts (album_id, ip_hash);
 
--- Adds one attempt and returns the count for the current window.
--- Done in a single statement so parallel requests can't slip past the limit.
+-- one statement so parallel requests can't sneak past the limit
 create or replace function public.register_login_attempt(
   p_album_id uuid,
   p_ip_hash text,
@@ -32,6 +27,6 @@ as $$
   returning attempt_count;
 $$;
 
--- Supabase lets anon call new functions by default. Only the server (secret key) may.
+-- supabase lets anon call new functions by default
 revoke execute on function public.register_login_attempt(uuid, text, int) from public, anon, authenticated;
 grant execute on function public.register_login_attempt(uuid, text, int) to service_role;

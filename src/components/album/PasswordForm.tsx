@@ -17,8 +17,7 @@ export default function PasswordForm({ slug }: { slug: string }) {
     initialState,
   );
 
-  // Which attempt the visitor has started retyping after.
-  // Used to hide the error message as soon as they type again.
+  // hides the error once they start retyping
   const [editedAfterAttempt, setEditedAfterAttempt] = useState(0);
 
   const hasError =
@@ -45,7 +44,7 @@ export default function PasswordForm({ slug }: { slug: string }) {
         Password
       </label>
 
-      {/* key={attempt} remounts this row on every submit, so the shake replays each time */}
+      {/* new key every submit so the shake replays */}
       <div
         key={state.attempt}
         className={cn("flex items-end gap-6", showError && "motion-safe:animate-shake")}

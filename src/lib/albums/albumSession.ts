@@ -18,8 +18,6 @@ function getCookieName(albumId: string) {
   return `album_${albumId}`;
 }
 
-// The cookie holds a signed token saying "this browser unlocked album X".
-// It never contains the password itself.
 export async function createAlbumSession(album: SessionAlbum) {
   const token = await new SignJWT({ passwordVersion: album.password_version })
     .setProtectedHeader({ alg: "HS256" })
@@ -39,7 +37,7 @@ export async function createAlbumSession(album: SessionAlbum) {
   });
 }
 
-// Changing an album's password_version logs out everyone who unlocked it before.
+// bumping password_version kicks out everyone who unlocked it before
 export async function hasAlbumSession(album: SessionAlbum) {
   const cookieStore = await cookies();
   const token = cookieStore.get(getCookieName(album.id))?.value;
@@ -56,7 +54,6 @@ export async function hasAlbumSession(album: SessionAlbum) {
 
     return payload.passwordVersion === album.password_version;
   } catch {
-    // Expired, tampered with, or signed with an old secret
     return false;
   }
 }

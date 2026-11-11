@@ -41,7 +41,7 @@ export default async function AlbumPage({
       </div>
 
       {unlocked ? (
-        // TODO(milestone 5): replace with <AlbumGallery />
+        // TODO: swap for <AlbumGallery /> (m5)
         <p className="mt-18 text-lg font-light motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500">
           Album unlocked!
         </p>

@@ -22,7 +22,6 @@ export default function PasswordInput({ showError, pending, onChange }: Password
         className="peer h-11 w-full border-0 border-b border-border bg-transparent p-0 text-xl font-light tracking-widest outline-none transition-opacity disabled:opacity-50"
       />
 
-      {/* Focus line */}
       <span
         aria-hidden="true"
         className={cn(
@@ -32,7 +31,6 @@ export default function PasswordInput({ showError, pending, onChange }: Password
         )}
       />
 
-      {/* Loading bar */}
       {pending && (
         <span
           aria-hidden="true"

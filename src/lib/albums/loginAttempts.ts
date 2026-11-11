@@ -4,7 +4,6 @@ import { headers } from "next/headers";
 import { db } from "@/lib/clients/db";
 import { WINDOW_MINUTES } from "@/lib/albums/rateLimitConfig";
 
-// We store a keyed hash of the IP, never the IP itself.
 async function getIpHash() {
   const headerStore = await headers();
 
@@ -16,8 +15,6 @@ async function getIpHash() {
     .digest("hex");
 }
 
-// Returns how many attempts this visitor has made on this album in the current window,
-// including this one.
 export async function registerLoginAttempt(albumId: string) {
   const { data, error } = await db.rpc("register_login_attempt", {
     p_album_id: albumId,

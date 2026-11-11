@@ -8,8 +8,6 @@ import { clearLoginAttempts, registerLoginAttempt } from "@/lib/albums/loginAtte
 import { MAX_ATTEMPTS } from "@/lib/albums/rateLimitConfig";
 import { UnlockState } from "@/types/unlock";
 
-// Called by PasswordForm when the visitor submits a password.
-// `slug` is bound in by the form, `formData` holds the typed password.
 export async function unlockAlbum(
   slug: string,
   previous: UnlockState,
@@ -33,7 +31,7 @@ export async function unlockAlbum(
       return { status: "wrong", attempt };
     }
 
-    // Counted before verifying, so once locked we don't even check the password
+    // count first so a locked out visitor can't keep guessing
     const attemptCount = await registerLoginAttempt(album.id);
 
     if (attemptCount > MAX_ATTEMPTS) {
