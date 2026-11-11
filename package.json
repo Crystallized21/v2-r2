@@ -35,7 +35,7 @@
     "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/postcss": "^4",
     "@types/archiver": "^8.0.0",
-    "@types/node": "^20",
+    "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "archiver": "^8.0.0",
@@ -47,7 +47,6 @@
     "supabase": "^2.119.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
-    "typescript": "^5",
-    "wrangler": "^4.141.0"
+    "typescript": "^5"
   }
 }
