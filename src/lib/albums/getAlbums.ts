@@ -5,7 +5,9 @@ export async function getAlbums(): Promise<Album[]> {
   const { data, error } = await db
     .from("albums")
     .select("id, slug, name, event_date")
-    .eq("published", true);
+    .eq("published", true)
+    .order("event_date", { ascending: false })
+    .order("created_at", { ascending: false });
 
   if (error) throw error;
 
